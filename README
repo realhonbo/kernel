@@ -16,3 +16,33 @@ several of them using the Restructured Text markup notation.
 Please read the Documentation/process/changes.rst file, as it contains the
 requirements for building and running the kernel, and information about
 the problems which may result by upgrading your kernel.
+
+
+
+Tspi
+============
+
+Build command is like below:
+```
+export CROSS_COMPILE=aarch64-linux-gnu-
+export ARCH=arm64
+
+make rockchip_linux_defconfig
+make -j$(nproc) ; make tspi-rk3566-user-v10-linux.img # Generate boot.img
+```
+
+How to program:
+Ensure the boot partition
+```
+~# lsblk -o NAME,SIZE,LABEL,PARTLABEL,MOUNTPOINTS
+NAME           SIZE LABEL PARTLABEL MOUNTPOINTS
+mmcblk0      116.5G
+├─mmcblk0p1      4M       uboot
+├─mmcblk0p2      4M       misc
+├─mmcblk0p3     64M       boot   <-- it's you
+├─mmcblk0p4    128M       recovery
+├─mmcblk0p5     32M       backup
+└─mmcblk0p6  116.2G       rootfs    /
+```
+And then you can:
+``dd if=boot.img of=/dev/mmcblk0p3 bs=4M conv=fsync status=progress``

@@ -1,0 +1,49 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2020 Rockchip Electronics Co., Ltd.
+ *
+ */
+
+#include "tspi-rk3566-user-v10-linux.dts"
+
+/ {
+	ex39-usb-vcc5v0-host-en {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpio = <&gpio0 RK_PA5 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&ex39_usb_vcc5v0_host_en>;
+		regulator-name = "ex39_usb_vcc5v0_host_en";
+		regulator-always-on;
+	};
+};
+
+&usbhost_dwc3 {
+	phys = <&u2phy0_host>;
+	phy-names = "usb2-phy";
+	maximum-speed = "high-speed";
+	status = "okay";
+};
+
+&combphy1_usq {
+	rockchip,dis-u3otg1-port;
+	status = "okay";
+};
+
+&sata1 {
+	rockchip,enable-ssc;
+	status = "okay";
+};
+
+// Earpod in the extend board
+&rk_headset {
+	status = "okay";
+};
+
+&pinctrl {
+	ex39_usb {
+		ex39_usb_vcc5v0_host_en: ex39-usb-vcc5v0-host-en {
+			rockchip,pins = <0 RK_PA5 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+	};
+};
