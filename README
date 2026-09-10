@@ -27,7 +27,7 @@ Build command is like below:
 export CROSS_COMPILE=aarch64-linux-gnu-
 export ARCH=arm64
 
-make rockchip_linux_defconfig
+make rockchip_linux_tspi_defconfig
 make -j$(nproc) ; make tspi-rk3566-user-v10-linux.img # Generate boot.img
 ```
 
